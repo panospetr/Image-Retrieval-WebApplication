@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Query</title>
+
+    </h:head>
+    <h:body>
+
+
+        <h:form>
+            <div style="width: 49%; height: 50px;  border: yellow ridge; background-color: lightgreen ; float: left; "  >
+                <h:commandButton id="gotoindexbuttonn" value="Upload an Image"  action="gotoindex" style="width: 100%; height: 50px; font-size:large;  background-color: green ; " />
+            </div>
+
+            <div style="width: 49%; height: 50px;  border: yellow ridge; float: right; "  >
+                <h:commandButton   id="gotoquerybuttonn" value="Ask a Query" disabled="true" action="query" style="width: 100%; font-size:large; height: 50px;   background-color: lightgreen ; " />
+
+
+            </div>
+            <br/><br/>   <br/><br/>
+        </h:form>
+        <div>
+
+            <div id="optiondiv" style="width: 30%; display:inline-block; padding: 10px;    float:left" >
+                <h:form id="queryFormId" enctype="multipart/form-data">
+                    <h3> Enter query Image and preferences</h3>    
+
+
+                    <h:inputFile id="fileToUploadd" required="true"
+                                 requiredMessage="Enter image query ..."  value="#{demo.uploadedFile}"   />
+                    <br/>
+
+                    <h4>number of results <h:selectOneMenu value="#{demo.imagenumber}">
+                            <f:selectItem itemValue="10" itemLabel="10" />
+                            <f:selectItem itemValue="20" itemLabel="20" />
+                            <f:selectItem itemValue="30" itemLabel="30" />
+                            <f:selectItem itemValue="50" itemLabel="50" />
+                            <f:selectItem itemValue="80" itemLabel="80" />
+                        </h:selectOneMenu></h4>
+                    
+ <h:panelGrid columns="1" style="margin-bottom: 10px">
+         <h:outputText id="outputC" value="Colour ratio %#{demo.coulorWeight}" />
+        <h:inputHidden id="txt1" value="#{demo.coulorWeight}" />
+        <p:slider for="txt1" display="outputC" style="width: 200px" displayTemplate="Set color ratio to %{value}" />
+        <br/>
+        <h:outputText id="outputT" value="Texture ratio %#{demo.textureWeight}" />
+        <h:inputHidden id="txt2" value="#{demo.textureWeight}" />
+        <p:slider for="txt2" display="outputT" style="width: 200px" displayTemplate="Set textute ratio to %{value}" />
+        <br/>
+        <h:outputText id="outputS" value="Shape ratio %#{demo.shapeWeight}" />
+        <h:inputHidden id="txt3" value="#{demo.shapeWeight}" />
+        <p:slider for="txt3" display="outputS" style="width: 200px" displayTemplate="Set shape ratio to %{value}" />
+    </h:panelGrid>
+                    
+                    <br/>
+                    <h:commandButton  value="Input query" style="width: 150px; height: 50px;" action="#{demo.GetTopK()}">
+                        <f:ajax execute="@all" render="resultform:resultimgs"/>
+                    </h:commandButton>
+                </h:form>
+
+                <h:form id="feedbackForm" >
+                    <br/><br/>
+                    <h3> Feedback selection</h3>  
+                    <h:commandButton style="width: 30px;height: 30px;" image="siteimages/tick.jpg"  action="#{demo.selectGood()}">
+                        <f:ajax execute="@all" render="goodtimgs"/>
+                    </h:commandButton>
+                    <br/><br/>
+                    <h:panelGroup id="goodimgs">
+                        <ui:repeat id="idd" var="image" value="#{demo.goodfeedbacklist}">
+                            <h:graphicImage value="#{image}" width="30" height="30" style="border: 10px green;" />
+                        </ui:repeat>
+                    </h:panelGroup>
+                    <br/><br/>
+
+                    <h:commandButton style="width: 30px;height: 30px;" image="siteimages/x.jpg" action="#{demo.selectBad()}">
+                        <f:ajax execute="@all" render="badimgs"/>
+                    </h:commandButton>
+                    <br/><br/>
+                    <h:panelGroup id="badimgs">
+                        <ui:repeat id="ids" var="image" value="#{demo.badfeedbacklist}">
+                            <h:graphicImage value="#{image}" width="30" height="30" style="border: 10px red;" />
+                        </ui:repeat>
+                    </h:panelGroup>
+                    <br/>
+                    <h:commandButton value="Clear all" action="#{demo.clearAll()}">
+                        <f:ajax execute="@all" render="badimgs"/>
+                        <f:ajax execute="@all" render="goodimgs"/>
+                        <f:ajax execute="@all" render="resultform:resultimgs"/>
+                    </h:commandButton>
+                </h:form>
+
+               
+
+            </div>   
+
+            <div id="resultdiv" style="width: 65%;display:inline-block;border: yellow ridge;  padding: 10px; float:right;" >
+                <h3> Result </h3>
+                <h:form id="resultform">
+                    <h:panelGroup id="resultimgs">
+                        <ui:repeat id="id" var="image" value="#{demo.imagelist}">
+                            <h:commandButton action="#{demo.addFeedback(image)}" image="#{image}" style=" padding: 10px; height:100px; width:100px"  >
+                                <f:ajax execute="@all" render="feedbackForm:goodimgs"/>
+                                <f:ajax execute="@all" render="feedbackForm:badimgs"/>
+                                
+                            </h:commandButton>
+                        </ui:repeat>
+                    </h:panelGroup>
+                </h:form>
+            </div>
+            <h:messages id="uploadMsgId" globalOnly="true" showDetail="false"
+                            showSummary="true" style="color:red"/>
+        </div>
+         
+    </h:body>
+</html>
+

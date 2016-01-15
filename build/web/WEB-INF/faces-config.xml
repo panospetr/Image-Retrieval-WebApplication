@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+<render-kit>
+    <renderer>
+        <description>Multiple File Renderer</description>
+        <component-family>javax.faces.Input</component-family>
+        <renderer-type>javax.faces.File</renderer-type>
+    </renderer>
+</render-kit>
+<render-kit>
+    <renderer>
+        <description>Multiple File Renderer</description>
+        <component-family>javax.faces.Input</component-family>
+        <renderer-type>javax.faces.File</renderer-type>
+        <renderer-class>MyFileRenderer</renderer-class>
+    </renderer>
+</render-kit>
+</faces-config>

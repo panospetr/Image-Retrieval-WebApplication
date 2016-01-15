@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+
+
+    <h:body >
+
+        <h:form>
+            <div style="width: 49%; height: 50px;  border: yellow ridge; background-color: lightgreen ; float: left; "  >
+                <h:commandButton id="gotoindexbuttonn" value="Upload an Image" disabled="true" action="a" style="width: 100%; height: 50px; font-size:large;  background-color: lightgreen ; " />
+            </div>
+
+            <div style="width: 49%; height: 50px;  border: yellow ridge; float: right; "  >
+                <h:commandButton   id="gotoquerybuttonn" value="Ask a Query"  action="gotoquery" style="width: 100%; font-size:large; height: 50px;   background-color: green ; " />
+
+
+            </div>
+            <br/><br/>   <br/><br/>
+        </h:form>
+
+
+        <div>
+            <div style="width: 30%; display:inline-block; padding: 10px;    float:left" >
+                <h3> Choose files to upload</h3>       
+                <h:form id="uploadFormId" enctype="multipart/form-data">
+                    <h:inputFile  style="alignment-adjust: central; " id="fileToUpload" required="true"
+                                 requiredMessage="No file selected ..." value="#{demo.uploadedFile}"  pt:multiple="multiple" />
+                    
+                    <h:message showDetail="false" showSummary="true"
+                               for="fileToUpload" style="color:red"/>
+                    <h:commandButton id="uploadbutton" value="Upload" action="#{demo.upload()}">
+                        <f:ajax execute="@all" render="imagesdisplay:imgs"/>
+                    </h:commandButton>
+                    <br/><br/>
+                   <h3> Enter URL for crawl</h3> 
+                   <h:inputText id="urltext" value="#{demo.crawlURL}" /> 
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <h:commandButton  id="crawlbutton" value="Crawl" action="#{demo.crawl()}"  >
+                        <f:ajax execute="@all" render="urltext"/>
+                    </h:commandButton> 
+                </h:form>
+                
+                <h:messages id="uploadMsgId" globalOnly="true" showDetail="false"
+                            showSummary="true" style="color:red"/>
+
+            </div>   
+
+            <div id="imagesdisplay" style="width: 65%;display:inline-block;border: yellow ridge;  padding: 10px; float:right;" >
+                <h3> Sample Images</h3>   
+                <br/>
+                <h:panelGroup id="imgs">
+                    <ui:repeat id="id" var="image" value="#{demo.imagesOnDb}">
+                        <h:graphicImage value="Images/#{image}" style=" padding: 10px; height:100px; width:100px">
+                        </h:graphicImage>
+                    </ui:repeat>
+                </h:panelGroup>
+
+            </div>
+        </div>
+        <br />
+      
+    </h:body>
+</html>
