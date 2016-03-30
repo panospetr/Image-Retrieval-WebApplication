@@ -1,5 +1,5 @@
 #Image Search Engine 
-MSC project for Image Search. 
+MSC project for Image Search. (work of two)
 
 ##Implementations:
 -webUI
